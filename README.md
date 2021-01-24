@@ -2,8 +2,9 @@
 An API to provide data for temnoapp front end applications
 
 ### `yarn`
-[For more information about yarn installation](https://classic.yarnpkg.com/en/docs/install)
 To install everything you need to run it
+
+[For more information about yarn installation](https://classic.yarnpkg.com/en/docs/install)
 
 ## `cp .env.example .env`
 To create your own env, you may want to change something
