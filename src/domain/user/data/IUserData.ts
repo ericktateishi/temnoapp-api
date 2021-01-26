@@ -1,19 +1,14 @@
 import UserEntity from '@domain/user/entities/UserEntity';
 
-export type CreateUserDTO = {
-  name: string;
-  email: string;
-  phone?: string;
-  location: string;
-};
+export type CreateUserDTO = Pick<
+  UserEntity,
+  'name' | 'email' | 'phone' | 'location'
+>;
 
-export type UpdateUserDTO = {
-  id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  location: string;
-};
+export type UpdateUserDTO = Pick<
+  UserEntity,
+  'id' | 'name' | 'email' | 'phone' | 'location'
+>;
 
 export default interface IUserData {
   create(data: CreateUserDTO): Promise<UserEntity>;

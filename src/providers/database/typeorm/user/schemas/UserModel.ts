@@ -1,15 +1,16 @@
 import UserEntity from '@domain/user/entities/UserEntity';
+import VendorModel from '@providers/database/typeorm/vendor/schemas/VendorModel';
 import {
   Entity,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryGeneratedColumn,
-  Unique,
+  Index,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('user')
-@Unique(['email'])
 class UserModel extends UserEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -18,6 +19,7 @@ class UserModel extends UserEntity {
   name: string;
 
   @Column({ nullable: false })
+  @Index({ unique: true })
   email: string;
 
   @Column()
@@ -25,6 +27,9 @@ class UserModel extends UserEntity {
 
   @Column()
   location: string;
+
+  @OneToMany(() => VendorModel, vendor => vendor.user)
+  vendors: VendorModel[];
 
   @Column({ nullable: false })
   active: boolean;

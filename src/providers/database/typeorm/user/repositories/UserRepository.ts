@@ -85,6 +85,7 @@ class UserRepository implements IUserData {
       where: {
         email,
       },
+      relations: ['vendors', 'vendors.hours'],
     });
   }
 }
