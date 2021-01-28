@@ -35,9 +35,6 @@ class VendorModel extends VendorEntity {
   @Column()
   category?: string;
 
-  @Column()
-  subCategory?: string;
-
   @OneToOne(() => VendorHoursModel)
   @JoinColumn()
   hours: VendorHoursModel;

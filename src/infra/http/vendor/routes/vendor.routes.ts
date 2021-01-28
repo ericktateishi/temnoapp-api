@@ -15,7 +15,6 @@ vendorRouter.post(
       location: Joi.string().required(),
       description: Joi.string(),
       category: Joi.string(),
-      subCategory: Joi.string(),
       hours: Joi.object({
         sunday: Joi.string(),
         monday: Joi.string(),

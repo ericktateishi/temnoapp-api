@@ -8,7 +8,6 @@ export type CreateVendorDTO = Pick<
   | 'location'
   | 'description'
   | 'category'
-  | 'subCategory'
   | 'hours'
   | 'facebook'
   | 'instagram'

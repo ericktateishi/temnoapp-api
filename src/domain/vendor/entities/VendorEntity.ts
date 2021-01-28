@@ -15,8 +15,6 @@ export default class VendorEntity {
 
   category?: string;
 
-  subCategory?: string;
-
   hours?: VendorHoursEntity;
 
   facebook?: string;

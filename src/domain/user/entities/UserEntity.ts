@@ -9,6 +9,8 @@ export default class UserEntity {
 
   location: string;
 
+  password?: string;
+
   active: boolean;
 
   created: Date;

@@ -2,18 +2,22 @@ import UserEntity from '@domain/user/entities/UserEntity';
 
 export type CreateUserDTO = Pick<
   UserEntity,
-  'name' | 'email' | 'phone' | 'location'
+  'name' | 'email' | 'phone' | 'location' | 'password'
 >;
 
-export type UpdateUserDTO = Pick<
-  UserEntity,
-  'id' | 'name' | 'email' | 'phone' | 'location'
->;
+export interface IUpdateUserDTO
+  extends Pick<
+    UserEntity,
+    'id' | 'name' | 'email' | 'phone' | 'location' | 'password'
+  > {
+  oldPassword?: string;
+}
 
 export default interface IUserData {
   create(data: CreateUserDTO): Promise<UserEntity>;
-  update(data: UpdateUserDTO): Promise<UserEntity | undefined>;
+  update(data: IUpdateUserDTO): Promise<UserEntity | undefined>;
   inactivate(id: string): Promise<UserEntity | undefined>;
   activate(id: string): Promise<UserEntity | undefined>;
   findByEmail(email: string): Promise<UserEntity | undefined>;
+  findById(id: string): Promise<UserEntity | undefined>;
 }

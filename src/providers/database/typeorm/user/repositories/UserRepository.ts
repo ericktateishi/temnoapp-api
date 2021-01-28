@@ -1,7 +1,7 @@
 import { getRepository, Repository } from 'typeorm';
 import IUserData, {
   CreateUserDTO,
-  UpdateUserDTO,
+  IUpdateUserDTO,
 } from '@domain/user/data/IUserData';
 import UserModel from '@providers/database/typeorm/user/schemas/UserModel';
 
@@ -13,37 +13,33 @@ class UserRepository implements IUserData {
   }
 
   public async create(data: CreateUserDTO): Promise<UserModel> {
-    const { name, email, location, phone } = data;
     const user = this.ormRepository.create({
-      name,
-      email,
-      location,
-      phone,
+      ...data,
       active: true,
+      id: undefined,
     });
 
     await this.ormRepository.save(user);
     return user;
   }
 
-  public async update(data: UpdateUserDTO): Promise<UserModel | undefined> {
-    const { id, name, email, location, phone } = data;
+  public async update(data: IUpdateUserDTO): Promise<UserModel | undefined> {
+    const { id } = data;
     await this.ormRepository.update(
       {
         id,
       },
       {
-        name,
-        email,
-        location,
-        phone,
+        ...data,
       },
     );
-    return this.ormRepository.findOne({
+    const user = await this.ormRepository.findOne({
       where: {
         id,
       },
+      relations: ['vendors', 'vendors.hours'],
     });
+    return user;
   }
 
   public async inactivate(id: string): Promise<UserModel | undefined> {
@@ -84,6 +80,15 @@ class UserRepository implements IUserData {
     return this.ormRepository.findOne({
       where: {
         email,
+      },
+      relations: ['vendors', 'vendors.hours'],
+    });
+  }
+
+  public async findById(id: string): Promise<UserModel | undefined> {
+    return this.ormRepository.findOne({
+      where: {
+        id,
       },
       relations: ['vendors', 'vendors.hours'],
     });
