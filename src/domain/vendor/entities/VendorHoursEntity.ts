@@ -1,5 +1,5 @@
 export default class VendorHoursEntity {
-  id: string;
+  id?: string;
 
   sunday?: string;
 

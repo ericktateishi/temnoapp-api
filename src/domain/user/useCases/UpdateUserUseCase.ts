@@ -21,8 +21,7 @@ export default class UpdateUserUseCase
       const oldUser = await this.userData.findById(data.id);
       if (!oldUser || !oldUser.id) return undefined;
 
-      if (!oldUser.password)
-        data.password = await this.authData.encryptPassword(data.password);
+      if (!oldUser.password) throw new AppError('Old password invalid', 403);
 
       const result = await this.authData.comparePasswords(
         data.oldPassword,

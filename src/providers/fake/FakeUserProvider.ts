@@ -17,6 +17,16 @@ class FakeUserProvider implements IUserData {
       created: new Date(),
       updated: new Date(),
     },
+    {
+      id: 'id-2',
+      email: 'mail-2@test.com',
+      location: 'location-id',
+      name: 'Test',
+      phone: '00 0000 0000',
+      active: true,
+      created: new Date(),
+      updated: new Date(),
+    },
   ];
 
   public async create(data: CreateUserDTO): Promise<UserEntity> {
