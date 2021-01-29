@@ -17,5 +17,6 @@ module.exports = {
   testEnvironment: "node",
   testMatch: [
     "**/*.spec.ts"
-  ]
+  ],
+  setupFiles: ["<rootDir>/.jest/setEnvVars.js"]
 };

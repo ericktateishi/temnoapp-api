@@ -8,8 +8,8 @@
   "scripts": {
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
     "start": "node dist/infra/http/server.js",
-    "dev": "env-cmd -f ./.env ts-node-dev -r tsconfig-paths/register --respawn --ignore-watch node_modules --no-notify src/infra/http/server.ts",
-    "test": "env-cmd -f ./.env cross-env APP_BASE_PATH=src jest --runInBand",
+    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --ignore-watch node_modules --no-notify src/infra/http/server.ts",
+    "test": "jest",
     "lint": "eslint src/ --ext ts"
   },
   "husky": {

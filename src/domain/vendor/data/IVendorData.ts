@@ -23,6 +23,6 @@ export type ListVendorResponse = {
 
 export default interface IVendorData {
   create(data: CreateVendorDTO): Promise<VendorEntity>;
-  findAll(limit?: number, offset?: number): Promise<ListVendorResponse>;
+  findAll(limit: number, offset: number): Promise<ListVendorResponse>;
   findById(id: string): Promise<VendorEntity | undefined>;
 }

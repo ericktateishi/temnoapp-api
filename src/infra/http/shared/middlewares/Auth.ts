@@ -19,7 +19,7 @@ export const authGenerate = async (request: Request, response: Response) => {
   const token = await createTokenUseCase.execute(
     (request as IAuthRequested).user,
   );
-  response.header(process.env.APP_AUTH_HEADER as string, token);
+  response.header(AUTH_HEADER, token);
   response.sendStatus(200);
 };
 
