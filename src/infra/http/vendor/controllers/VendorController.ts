@@ -3,6 +3,9 @@ import { Request, Response } from 'express';
 import CreateVendorUseCase from '@domain/vendor/useCases/CreateVendorUseCase';
 import ListVendorUseCase from '@domain/vendor/useCases/ListVendorUseCase';
 import ShowVendorUseCase from '@domain/vendor/useCases/ShowVendorUseCase';
+import UpdateVendorUseCase from '@domain/vendor/useCases/UpdateVendorUseCase';
+import StatusVendorUseCase from '@domain/vendor/useCases/StatusVendorUseCase';
+import AppError from '@infra/http/shared/middlewares/AppError';
 
 export default class VendorController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -27,6 +30,25 @@ export default class VendorController {
     const { id } = request.query;
 
     const vendor = await showVendorUseCase.execute(id as string);
+    return response.json(vendor);
+  }
+
+  public async update(request: Request, response: Response): Promise<Response> {
+    const updateVendorUseCase = container.resolve(UpdateVendorUseCase);
+
+    const vendor = await updateVendorUseCase.execute({
+      ...request.body,
+    });
+
+    if (!vendor) throw new AppError('Could find vendor for update', 400);
+
+    return response.json(vendor);
+  }
+
+  public async status(request: Request, response: Response): Promise<Response> {
+    const statusVendorUseCase = container.resolve(StatusVendorUseCase);
+    const vendor = await statusVendorUseCase.execute(request.body.id);
+    if (!vendor) throw new AppError('Could find vendor for change status', 400);
     return response.json(vendor);
   }
 }

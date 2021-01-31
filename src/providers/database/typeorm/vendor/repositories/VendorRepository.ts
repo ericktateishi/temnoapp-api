@@ -2,6 +2,7 @@ import { getRepository, Repository } from 'typeorm';
 import IVendorData, {
   CreateVendorDTO,
   ListVendorResponse,
+  UpdateVendorDTO,
 } from '@domain/vendor/data/IVendorData';
 import VendorModel from '@providers/database/typeorm/vendor/schemas/VendorModel';
 import VendorHoursModel from '@providers/database/typeorm/vendor/schemas/VendorHoursModel';
@@ -18,7 +19,7 @@ class VendorRepository implements IVendorData {
 
   public async create(data: CreateVendorDTO): Promise<VendorModel> {
     let vendorHours: VendorHoursModel | undefined;
-    if (data?.hours) {
+    if (data.hours) {
       vendorHours = this.hourRepository.create({
         ...data?.hours,
       });
@@ -33,6 +34,54 @@ class VendorRepository implements IVendorData {
 
     await this.vendorRepository.save(vendor);
     return vendor;
+  }
+
+  public async update(data: UpdateVendorDTO): Promise<VendorModel | undefined> {
+    const vendor = await this.vendorRepository.findOne(data.id, {
+      relations: ['hours'],
+    });
+    if (!vendor) return undefined;
+
+    if (vendor.hours?.id && data.hours) {
+      await this.hourRepository.update(
+        {
+          id: vendor.hours?.id,
+        },
+        {
+          ...data.hours,
+          id: vendor.hours?.id,
+        },
+      );
+      delete data.hours;
+    }
+
+    this.vendorRepository.update(data.id, {
+      ...data,
+    });
+
+    return this.vendorRepository.findOne(data.id, {
+      relations: ['hours'],
+    });
+  }
+
+  public async status(id: string): Promise<VendorModel | undefined> {
+    const vendor = await this.vendorRepository.findOne(id);
+
+    if (!vendor) return undefined;
+
+    await this.vendorRepository.update(
+      {
+        id,
+      },
+      {
+        active: !vendor?.active,
+      },
+    );
+
+    return {
+      ...vendor,
+      active: !vendor?.active,
+    };
   }
 
   public async findAll(

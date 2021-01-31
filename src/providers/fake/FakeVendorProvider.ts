@@ -1,5 +1,6 @@
 import IVendorData, {
   CreateVendorDTO,
+  UpdateVendorDTO,
   ListVendorResponse,
 } from '@domain/vendor/data/IVendorData';
 import VendorEntity from '@domain/vendor/entities/VendorEntity';
@@ -39,6 +40,40 @@ class FakeVendorProvider implements IVendorData {
 
     this.vendors.push(vendor);
     return vendor;
+  }
+
+  public async update(
+    data: UpdateVendorDTO,
+  ): Promise<VendorEntity | undefined> {
+    const user = this.vendors.find(u => u.id === data.id);
+    if (!user) return undefined;
+
+    const newVendor: VendorEntity = {
+      ...user,
+      ...data,
+    };
+    this.vendors.map(u => {
+      if (u.id === data.id) return newVendor;
+      return u;
+    });
+
+    return newVendor;
+  }
+
+  public async status(id: string): Promise<VendorEntity | undefined> {
+    const vendor = this.vendors.find(u => u.id === id);
+    if (!vendor) return undefined;
+
+    const newVendor: VendorEntity = {
+      ...vendor,
+      active: !vendor.active,
+    };
+    this.vendors.map(u => {
+      if (u.id === id) return newVendor;
+      return u;
+    });
+
+    return newVendor;
   }
 
   public async findAll(limit = 10, offset = 0): Promise<ListVendorResponse> {

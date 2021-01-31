@@ -58,29 +58,13 @@ class FakeUserProvider implements IUserData {
     return newUser;
   }
 
-  public async inactivate(id: string): Promise<UserEntity | undefined> {
+  public async status(id: string): Promise<UserEntity | undefined> {
     const user = this.users.find(u => u.id === id);
     if (!user) return undefined;
 
     const newUser: UserEntity = {
       ...user,
-      active: false,
-    };
-    this.users.map(u => {
-      if (u.id === id) return newUser;
-      return u;
-    });
-
-    return newUser;
-  }
-
-  public async activate(id: string): Promise<UserEntity | undefined> {
-    const user = this.users.find(u => u.id === id);
-    if (!user) return undefined;
-
-    const newUser: UserEntity = {
-      ...user,
-      active: true,
+      active: !user.active,
     };
     this.users.map(u => {
       if (u.id === id) return newUser;

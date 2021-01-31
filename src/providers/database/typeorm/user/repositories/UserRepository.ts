@@ -33,47 +33,30 @@ class UserRepository implements IUserData {
         ...data,
       },
     );
-    const user = await this.ormRepository.findOne({
-      where: {
-        id,
-      },
+    const user = await this.ormRepository.findOne(id, {
       relations: ['vendors', 'vendors.hours'],
     });
     return user;
   }
 
-  public async inactivate(id: string): Promise<UserModel | undefined> {
+  public async status(id: string): Promise<UserModel | undefined> {
+    const user = await this.ormRepository.findOne(id);
+
+    if (!user) return undefined;
+
     await this.ormRepository.update(
       {
         id,
       },
       {
-        active: false,
+        active: !user?.active,
       },
     );
 
-    return this.ormRepository.findOne({
-      where: {
-        id,
-      },
-    });
-  }
-
-  public async activate(id: string): Promise<UserModel | undefined> {
-    await this.ormRepository.update(
-      {
-        id,
-      },
-      {
-        active: true,
-      },
-    );
-
-    return this.ormRepository.findOne({
-      where: {
-        id,
-      },
-    });
+    return {
+      ...user,
+      active: !user?.active,
+    };
   }
 
   public async findByEmail(email: string): Promise<UserModel | undefined> {
@@ -86,10 +69,7 @@ class UserRepository implements IUserData {
   }
 
   public async findById(id: string): Promise<UserModel | undefined> {
-    return this.ormRepository.findOne({
-      where: {
-        id,
-      },
+    return this.ormRepository.findOne(id, {
       relations: ['vendors', 'vendors.hours'],
     });
   }

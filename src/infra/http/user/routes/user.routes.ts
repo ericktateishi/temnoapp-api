@@ -42,23 +42,13 @@ userRouter.put(
 );
 
 userRouter.put(
-  '/inactivate',
+  '/status/',
   celebrate({
     [Segments.BODY]: {
       id: Joi.string().required(),
     },
   }),
-  userController.inactivate,
-);
-
-userRouter.put(
-  '/activate',
-  celebrate({
-    [Segments.BODY]: {
-      id: Joi.string().required(),
-    },
-  }),
-  userController.activate,
+  userController.status,
 );
 
 userRouter.get(

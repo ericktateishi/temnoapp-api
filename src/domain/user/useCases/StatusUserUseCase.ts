@@ -4,7 +4,7 @@ import IUserData from '@domain/user/data/IUserData';
 import UserEntity from '@domain/user/entities/UserEntity';
 
 @injectable()
-export default class InactivateUserUseCase
+export default class ActivateUserUseCase
   implements IUseCase<string, UserEntity | undefined> {
   constructor(
     @inject('UserData')
@@ -12,6 +12,6 @@ export default class InactivateUserUseCase
   ) {}
 
   public async execute(id: string): Promise<UserEntity | undefined> {
-    return this.userData.inactivate(id);
+    return this.userData.status(id);
   }
 }

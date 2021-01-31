@@ -53,4 +53,42 @@ vendorRouter.get(
   vendorController.show,
 );
 
+vendorRouter.put(
+  '/',
+  celebrate({
+    [Segments.BODY]: {
+      id: Joi.string().required(),
+      user: Joi.string().required(),
+      name: Joi.string().required(),
+      phone: Joi.string().required(),
+      location: Joi.string().required(),
+      description: Joi.string(),
+      category: Joi.string(),
+      hours: Joi.object({
+        sunday: Joi.string(),
+        monday: Joi.string(),
+        tuesday: Joi.string(),
+        wednesday: Joi.string(),
+        thursday: Joi.string(),
+        friday: Joi.string(),
+        saturday: Joi.string(),
+      }),
+      facebook: Joi.string(),
+      instagram: Joi.string(),
+      twitter: Joi.string(),
+    },
+  }),
+  vendorController.update,
+);
+
+vendorRouter.put(
+  '/status/',
+  celebrate({
+    [Segments.BODY]: {
+      id: Joi.string().required(),
+    },
+  }),
+  vendorController.status,
+);
+
 export default vendorRouter;

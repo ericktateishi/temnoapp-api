@@ -16,8 +16,7 @@ export interface IUpdateUserDTO
 export default interface IUserData {
   create(data: CreateUserDTO): Promise<UserEntity>;
   update(data: IUpdateUserDTO): Promise<UserEntity | undefined>;
-  inactivate(id: string): Promise<UserEntity | undefined>;
-  activate(id: string): Promise<UserEntity | undefined>;
+  status(id: string): Promise<UserEntity | undefined>;
   findByEmail(email: string): Promise<UserEntity | undefined>;
   findById(id: string): Promise<UserEntity | undefined>;
 }

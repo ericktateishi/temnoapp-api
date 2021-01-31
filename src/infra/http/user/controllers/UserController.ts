@@ -2,8 +2,7 @@ import { container } from 'tsyringe';
 import { Request, Response, NextFunction } from 'express';
 import CreateUserUseCase from '@domain/user/useCases/CreateUserUseCase';
 import UpdateUserUseCase from '@domain/user/useCases/UpdateUserUseCase';
-import InactivateUserUseCase from '@domain/user/useCases/InactivateUserUseCase';
-import ActivateUserUseCase from '@domain/user/useCases/ActivateUserUseCase';
+import StatusUserUseCase from '@domain/user/useCases/StatusUserUseCase';
 import ShowUserUseCase from '@domain/user/useCases/ShowUserUseCase';
 import AppError from '@infra/http/shared/middlewares/AppError';
 import { IAuthRequested } from '@infra/http/shared/middlewares/Auth';
@@ -40,23 +39,10 @@ export default class UserController {
     next();
   }
 
-  public async inactivate(
-    request: Request,
-    response: Response,
-  ): Promise<Response> {
-    const inactivateUserUseCase = container.resolve(InactivateUserUseCase);
-    const user = await inactivateUserUseCase.execute(request.body.id);
-    if (!user) throw new AppError('Could find user for inactivate', 400);
-    return response.json(user);
-  }
-
-  public async activate(
-    request: Request,
-    response: Response,
-  ): Promise<Response> {
-    const activateUserUseCase = container.resolve(ActivateUserUseCase);
-    const user = await activateUserUseCase.execute(request.body.id);
-    if (!user) throw new AppError('Could find user for activate', 400);
+  public async status(request: Request, response: Response): Promise<Response> {
+    const statusUserUseCase = container.resolve(StatusUserUseCase);
+    const user = await statusUserUseCase.execute(request.body.id);
+    if (!user) throw new AppError('Could find user for change status', 400);
     return response.json(user);
   }
 
