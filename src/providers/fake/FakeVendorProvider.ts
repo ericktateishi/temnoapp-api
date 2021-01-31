@@ -10,7 +10,6 @@ class FakeVendorProvider implements IVendorData {
     {
       id: 'id-1',
       user: 'user-id',
-      location: 'location-id',
       name: 'Test',
       phone: '00 0000 0000',
       category: 'category-id',

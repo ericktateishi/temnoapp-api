@@ -12,6 +12,9 @@ import IAuthData from '@domain/auth/data/IAuthData';
 import AuthProvider from '@providers/auth/AuthProvider';
 import FakeAuthProvider from '@providers/fake/FakeAuthProvider';
 
+import ILocationData from '@domain/location/data/ILocationData';
+import LocationRepository from '@providers/database/typeorm/location/repositories/LocationRepository';
+
 container.registerSingleton<IUserData>(
   'UserData',
   process.env.NODE_ENV !== 'test' ? UserRepository : FakeUserProvider,
@@ -24,3 +27,4 @@ container.registerSingleton<IAuthData>(
   'AuthData',
   process.env.NODE_ENV !== 'test' ? AuthProvider : FakeAuthProvider,
 );
+container.registerSingleton<ILocationData>('LocationData', LocationRepository);

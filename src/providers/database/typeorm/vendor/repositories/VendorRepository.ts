@@ -60,7 +60,7 @@ class VendorRepository implements IVendorData {
     });
 
     return this.vendorRepository.findOne(data.id, {
-      relations: ['hours'],
+      relations: ['hours', 'location'],
     });
   }
 
@@ -97,7 +97,7 @@ class VendorRepository implements IVendorData {
       },
       take: limit,
       skip: offset,
-      relations: ['hours'],
+      relations: ['hours', 'location'],
     });
 
     const total = await this.vendorRepository.count({
@@ -116,7 +116,7 @@ class VendorRepository implements IVendorData {
 
   public async findById(id: string): Promise<VendorModel | undefined> {
     return this.vendorRepository.findOne(id, {
-      relations: ['hours'],
+      relations: ['hours', 'location'],
     });
   }
 }

@@ -1,3 +1,5 @@
+import LocationEntity from '@domain/location/entities/LocationEntity';
+
 export default class UserEntity {
   id: string;
 
@@ -7,7 +9,7 @@ export default class UserEntity {
 
   phone?: string;
 
-  location: string;
+  location?: LocationEntity;
 
   password?: string;
 

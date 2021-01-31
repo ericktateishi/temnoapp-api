@@ -1,6 +1,7 @@
 import VendorEntity from '@domain/vendor/entities/VendorEntity';
 import VendorHoursModel from '@providers/database/typeorm/vendor/schemas/VendorHoursModel';
 import UserModel from '@providers/database/typeorm/user/schemas/UserModel';
+import LocationModel from '@providers/database/typeorm/location/schemas/LocationModel';
 import {
   Entity,
   Column,
@@ -26,8 +27,8 @@ class VendorModel extends VendorEntity {
   @Column()
   phone: string;
 
-  @Column()
-  location: string;
+  @ManyToOne(() => LocationModel)
+  location: LocationModel;
 
   @Column()
   description?: string;

@@ -9,7 +9,6 @@ class FakeUserProvider implements IUserData {
     {
       id: 'id-1',
       email: 'mail@test.com',
-      location: 'location-id',
       name: 'Test',
       password: 'secret',
       phone: '00 0000 0000',
@@ -20,7 +19,6 @@ class FakeUserProvider implements IUserData {
     {
       id: 'id-2',
       email: 'mail-2@test.com',
-      location: 'location-id',
       name: 'Test',
       phone: '00 0000 0000',
       active: true,

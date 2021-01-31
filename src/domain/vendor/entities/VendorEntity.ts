@@ -1,4 +1,5 @@
 import VendorHoursEntity from '@domain/vendor/entities/VendorHoursEntity';
+import LocationEntity from '@domain/location/entities/LocationEntity';
 
 export default class VendorEntity {
   id: string;
@@ -9,7 +10,7 @@ export default class VendorEntity {
 
   phone: string;
 
-  location: string;
+  location?: LocationEntity;
 
   description?: string;
 

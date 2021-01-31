@@ -20,7 +20,10 @@ class UserRepository implements IUserData {
     });
 
     await this.ormRepository.save(user);
-    return user;
+    const userComplete = await this.ormRepository.findOne(user.id, {
+      relations: ['vendors', 'vendors.hours', 'location'],
+    });
+    return userComplete || user;
   }
 
   public async update(data: IUpdateUserDTO): Promise<UserModel | undefined> {
@@ -34,7 +37,7 @@ class UserRepository implements IUserData {
       },
     );
     const user = await this.ormRepository.findOne(id, {
-      relations: ['vendors', 'vendors.hours'],
+      relations: ['vendors', 'vendors.hours', 'location'],
     });
     return user;
   }
@@ -64,13 +67,13 @@ class UserRepository implements IUserData {
       where: {
         email,
       },
-      relations: ['vendors', 'vendors.hours'],
+      relations: ['vendors', 'vendors.hours', 'location'],
     });
   }
 
   public async findById(id: string): Promise<UserModel | undefined> {
     return this.ormRepository.findOne(id, {
-      relations: ['vendors', 'vendors.hours'],
+      relations: ['vendors', 'vendors.hours', 'location'],
     });
   }
 }

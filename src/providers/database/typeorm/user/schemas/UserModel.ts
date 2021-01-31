@@ -1,5 +1,6 @@
 import UserEntity from '@domain/user/entities/UserEntity';
 import VendorModel from '@providers/database/typeorm/vendor/schemas/VendorModel';
+import LocationModel from '@providers/database/typeorm/location/schemas/LocationModel';
 import {
   Entity,
   Column,
@@ -8,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   Index,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity('user')
@@ -28,8 +30,8 @@ class UserModel extends UserEntity {
   @Column()
   phone?: string;
 
-  @Column()
-  location: string;
+  @ManyToOne(() => LocationModel)
+  location: LocationModel;
 
   @OneToMany(() => VendorModel, vendor => vendor.user)
   vendors: VendorModel[];

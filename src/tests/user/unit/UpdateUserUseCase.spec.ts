@@ -22,7 +22,6 @@ describe('Update User Use Case - unit tests', () => {
       id: 'id-invalid',
       email: 'test@mail.com',
       name: 'test',
-      location: 'location-id',
       password: 'secret-2',
       oldPassword: 'secret',
     };
@@ -36,7 +35,6 @@ describe('Update User Use Case - unit tests', () => {
       id: 'id-1',
       email: 'test@mail.com',
       name: 'test',
-      location: 'location-id',
       password: 'secret-2',
       oldPassword: 'wrong',
     };
@@ -54,7 +52,6 @@ describe('Update User Use Case - unit tests', () => {
       id: 'id-2',
       email: 'test@mail.com',
       name: 'test',
-      location: 'location-id',
       password: 'secret-2',
       oldPassword: 'secret',
     };
@@ -72,7 +69,6 @@ describe('Update User Use Case - unit tests', () => {
       id: 'id-1',
       email: 'test@mail.com',
       name: 'test',
-      location: 'location-id',
       password: 'secret-2',
       oldPassword: 'secret',
     };
@@ -86,13 +82,11 @@ describe('Update User Use Case - unit tests', () => {
       id: 'id-1',
       email: 'test@mail.com',
       name: 'test',
-      location: 'location-id',
     };
 
     const userUpdated = await updateUserUseCase.execute(user);
     expect(userUpdated?.id).toBeDefined();
     expect(userUpdated?.email).toBe(user.email);
     expect(userUpdated?.name).toBe(user.name);
-    expect(userUpdated?.location).toBe(user.location);
   });
 });
