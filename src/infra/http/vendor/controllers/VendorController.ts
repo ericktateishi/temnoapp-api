@@ -27,7 +27,7 @@ export default class VendorController {
 
   public async show(request: Request, response: Response): Promise<Response> {
     const showVendorUseCase = container.resolve(ShowVendorUseCase);
-    const { id } = request.query;
+    const { id } = request.params;
 
     const vendor = await showVendorUseCase.execute(id as string);
     return response.json(vendor);

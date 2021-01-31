@@ -5,7 +5,6 @@ import ILocationData, {
   ListLocationResponse,
 } from '@domain/location/data/ILocationData';
 import LocationModel from '@providers/database/typeorm/location/schemas/LocationModel';
-import LocationEntity from '@domain/location/entities/LocationEntity';
 
 class LocationRepository implements ILocationData {
   private ormRepository: Repository<LocationModel>;
@@ -14,7 +13,7 @@ class LocationRepository implements ILocationData {
     this.ormRepository = getRepository(LocationModel);
   }
 
-  public async create(data: CreateLocationDTO): Promise<LocationEntity> {
+  public async create(data: CreateLocationDTO): Promise<LocationModel> {
     const location = this.ormRepository.create({
       ...data,
       id: undefined,
@@ -46,13 +45,13 @@ class LocationRepository implements ILocationData {
     };
   }
 
-  public async findById(id: string): Promise<LocationEntity | undefined> {
-    return this.ormRepository.findOne(id);
+  public async findById(id: string): Promise<LocationModel | undefined> {
+    return this.ormRepository.findOne({ where: { id } });
   }
 
   public async update(
     data: UpdateLocationDTO,
-  ): Promise<LocationEntity | undefined> {
+  ): Promise<LocationModel | undefined> {
     const { id } = data;
     await this.ormRepository.update(
       {
@@ -62,7 +61,7 @@ class LocationRepository implements ILocationData {
         ...data,
       },
     );
-    return this.ormRepository.findOne(id);
+    return this.ormRepository.findOne({ where: { id } });
   }
 
   public async delete(id: string): Promise<boolean> {

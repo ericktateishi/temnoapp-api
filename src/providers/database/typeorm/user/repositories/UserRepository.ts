@@ -20,7 +20,10 @@ class UserRepository implements IUserData {
     });
 
     await this.ormRepository.save(user);
-    const userComplete = await this.ormRepository.findOne(user.id, {
+    const userComplete = await this.ormRepository.findOne({
+      where: {
+        id: user.id,
+      },
       relations: ['vendors', 'vendors.hours', 'location'],
     });
     return userComplete || user;
@@ -36,14 +39,15 @@ class UserRepository implements IUserData {
         ...data,
       },
     );
-    const user = await this.ormRepository.findOne(id, {
+    const user = await this.ormRepository.findOne({
+      where: { id },
       relations: ['vendors', 'vendors.hours', 'location'],
     });
     return user;
   }
 
   public async status(id: string): Promise<UserModel | undefined> {
-    const user = await this.ormRepository.findOne(id);
+    const user = await this.ormRepository.findOne({ where: { id } });
 
     if (!user) return undefined;
 
@@ -72,7 +76,8 @@ class UserRepository implements IUserData {
   }
 
   public async findById(id: string): Promise<UserModel | undefined> {
-    return this.ormRepository.findOne(id, {
+    return this.ormRepository.findOne({
+      where: { id },
       relations: ['vendors', 'vendors.hours', 'location'],
     });
   }

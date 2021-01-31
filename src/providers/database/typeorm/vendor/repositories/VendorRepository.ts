@@ -37,7 +37,8 @@ class VendorRepository implements IVendorData {
   }
 
   public async update(data: UpdateVendorDTO): Promise<VendorModel | undefined> {
-    const vendor = await this.vendorRepository.findOne(data.id, {
+    const vendor = await this.vendorRepository.findOne({
+      where: { id: data.id },
       relations: ['hours'],
     });
     if (!vendor) return undefined;
@@ -59,13 +60,16 @@ class VendorRepository implements IVendorData {
       ...data,
     });
 
-    return this.vendorRepository.findOne(data.id, {
+    return this.vendorRepository.findOne({
+      where: { id: data.id },
       relations: ['hours', 'location'],
     });
   }
 
   public async status(id: string): Promise<VendorModel | undefined> {
-    const vendor = await this.vendorRepository.findOne(id);
+    const vendor = await this.vendorRepository.findOne({
+      where: { id },
+    });
 
     if (!vendor) return undefined;
 
@@ -115,7 +119,8 @@ class VendorRepository implements IVendorData {
   }
 
   public async findById(id: string): Promise<VendorModel | undefined> {
-    return this.vendorRepository.findOne(id, {
+    return this.vendorRepository.findOne({
+      where: { id },
       relations: ['hours', 'location'],
     });
   }

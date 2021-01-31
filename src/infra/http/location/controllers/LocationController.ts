@@ -27,7 +27,7 @@ export default class LocationController {
 
   public async show(request: Request, response: Response): Promise<Response> {
     const showLocationUseCase = container.resolve(ShowLocationUseCase);
-    const { id } = request.query;
+    const { id } = request.params;
 
     const location = await showLocationUseCase.execute(id as string);
     return response.json(location);

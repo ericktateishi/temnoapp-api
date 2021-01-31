@@ -34,7 +34,7 @@ export type ListLocationResponse = {
   locations: LocationEntity[];
 };
 
-export default interface IVendorData {
+export default interface ILocationData {
   create(data: CreateLocationDTO): Promise<LocationEntity>;
   findAll(limit: number, offset: number): Promise<ListLocationResponse>;
   findById(id: string): Promise<LocationEntity | undefined>;
