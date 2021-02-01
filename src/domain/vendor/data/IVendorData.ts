@@ -2,10 +2,10 @@ import VendorEntity from '@domain/vendor/entities/VendorEntity';
 
 export type CreateVendorDTO = Pick<
   VendorEntity,
-  | 'user'
+  | 'userId'
   | 'name'
   | 'phone'
-  | 'location'
+  | 'locationId'
   | 'description'
   | 'category'
   | 'hours'
@@ -17,10 +17,10 @@ export type CreateVendorDTO = Pick<
 export type UpdateVendorDTO = Pick<
   VendorEntity,
   | 'id'
-  | 'user'
+  | 'userId'
   | 'name'
   | 'phone'
-  | 'location'
+  | 'locationId'
   | 'description'
   | 'category'
   | 'hours'

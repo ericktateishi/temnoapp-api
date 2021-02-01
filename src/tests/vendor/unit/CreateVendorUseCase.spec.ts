@@ -13,7 +13,7 @@ describe('Create Vendor Use Case - unit tests', () => {
 
   it('should be able to create a vendor', async () => {
     const vendor = {
-      user: 'user-id',
+      userId: 'user-id',
       name: 'Test',
       phone: '00 0000 0000',
       category: 'category-id',

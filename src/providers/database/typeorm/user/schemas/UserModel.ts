@@ -10,6 +10,7 @@ import {
   Index,
   OneToMany,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity('user')
@@ -30,7 +31,11 @@ class UserModel extends UserEntity {
   @Column()
   phone?: string;
 
+  @Column({ nullable: true })
+  locationId?: string;
+
   @ManyToOne(() => LocationModel)
+  @JoinColumn({ name: 'locationId' })
   location: LocationModel;
 
   @OneToMany(() => VendorModel, vendor => vendor.user)

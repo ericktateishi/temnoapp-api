@@ -1,11 +1,11 @@
-export default class LocationEntity {
+export default class CategoryEntity {
   id: string;
 
   name: string;
 
   parentCategoryId?: string;
 
-  parentCategory?: LocationEntity;
+  parentCategory?: CategoryEntity;
 
   created: Date;
 

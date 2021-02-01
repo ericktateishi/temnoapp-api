@@ -9,6 +9,8 @@ export default class UserEntity {
 
   phone?: string;
 
+  locationId?: string;
+
   location?: LocationEntity;
 
   password?: string;

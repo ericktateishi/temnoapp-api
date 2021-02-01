@@ -18,8 +18,12 @@ class VendorModel extends VendorEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ nullable: false })
+  userId: string;
+
   @ManyToOne(() => UserModel, { nullable: false })
-  user: string;
+  @JoinColumn({ name: 'userId' })
+  user: UserModel;
 
   @Column({ nullable: false })
   name: string;
@@ -27,7 +31,11 @@ class VendorModel extends VendorEntity {
   @Column()
   phone: string;
 
+  @Column({ nullable: true })
+  locationId?: string;
+
   @ManyToOne(() => LocationModel)
+  @JoinColumn({ name: 'locationId' })
   location: LocationModel;
 
   @Column()

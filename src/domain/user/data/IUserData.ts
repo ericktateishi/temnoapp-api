@@ -2,13 +2,13 @@ import UserEntity from '@domain/user/entities/UserEntity';
 
 export type CreateUserDTO = Pick<
   UserEntity,
-  'name' | 'email' | 'phone' | 'location' | 'password'
+  'name' | 'email' | 'phone' | 'locationId' | 'password'
 >;
 
 export interface IUpdateUserDTO
   extends Pick<
     UserEntity,
-    'id' | 'name' | 'email' | 'phone' | 'location' | 'password'
+    'id' | 'name' | 'email' | 'phone' | 'locationId' | 'password'
   > {
   oldPassword?: string;
 }

@@ -9,10 +9,10 @@ vendorRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
-      user: Joi.string().required(),
+      userId: Joi.string().required(),
       name: Joi.string().required(),
       phone: Joi.string().required(),
-      location: Joi.string().required(),
+      locationId: Joi.string().required(),
       description: Joi.string(),
       category: Joi.string(),
       hours: Joi.object({
@@ -58,10 +58,10 @@ vendorRouter.put(
   celebrate({
     [Segments.BODY]: {
       id: Joi.string().required(),
-      user: Joi.string().required(),
+      userId: Joi.string().required(),
       name: Joi.string().required(),
       phone: Joi.string().required(),
-      location: Joi.string().required(),
+      locationId: Joi.string().required(),
       description: Joi.string(),
       category: Joi.string(),
       hours: Joi.object({

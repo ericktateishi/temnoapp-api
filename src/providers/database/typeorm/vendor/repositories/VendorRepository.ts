@@ -39,11 +39,10 @@ class VendorRepository implements IVendorData {
   public async update(data: UpdateVendorDTO): Promise<VendorModel | undefined> {
     const vendor = await this.vendorRepository.findOne({
       where: { id: data.id },
-      relations: ['hours'],
     });
     if (!vendor) return undefined;
 
-    if (vendor.hours?.id && data.hours) {
+    if (vendor.hoursId && data.hours) {
       await this.hourRepository.update(
         {
           id: vendor.hours?.id,
@@ -54,6 +53,14 @@ class VendorRepository implements IVendorData {
         },
       );
       delete data.hours;
+    }
+
+    if (!vendor.hoursId && data.hours) {
+      const vendorHours = this.hourRepository.create({
+        ...data.hours,
+      });
+      await this.hourRepository.save(vendorHours);
+      data.hours = vendorHours;
     }
 
     this.vendorRepository.update(data.id, {

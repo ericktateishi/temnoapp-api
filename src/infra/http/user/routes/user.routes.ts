@@ -15,7 +15,7 @@ userRouter.post(
     [Segments.BODY]: {
       name: Joi.string().required(),
       email: Joi.string().email().required(),
-      location: Joi.string().required(),
+      locationId: Joi.string(),
       phone: Joi.string(),
       password: Joi.string().required(),
     },
@@ -30,7 +30,7 @@ userRouter.put(
     [Segments.BODY]: {
       name: Joi.string(),
       email: Joi.string().email(),
-      location: Joi.string(),
+      locationId: Joi.string(),
       phone: Joi.string(),
       password: Joi.string(),
       oldPassword: Joi.string(),

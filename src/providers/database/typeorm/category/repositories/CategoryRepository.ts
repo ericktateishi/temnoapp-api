@@ -5,7 +5,7 @@ import ICategoryData, {
 } from '@domain/category/data/ICategoryData';
 import CategoryModel from '@providers/database/typeorm/category/schemas/CategoryModel';
 
-class LocationRepository implements ICategoryData {
+class CategoryRepository implements ICategoryData {
   private ormRepository: Repository<CategoryModel>;
 
   constructor() {
@@ -64,4 +64,4 @@ class LocationRepository implements ICategoryData {
   }
 }
 
-export default LocationRepository;
+export default CategoryRepository;
