@@ -14,7 +14,7 @@ vendorRouter.post(
       phone: Joi.string().required(),
       locationId: Joi.string().required(),
       description: Joi.string(),
-      category: Joi.string(),
+      categoryId: Joi.string(),
       hours: Joi.object({
         sunday: Joi.string(),
         monday: Joi.string(),
@@ -44,6 +44,20 @@ vendorRouter.get(
 );
 
 vendorRouter.get(
+  '/search/',
+  celebrate({
+    [Segments.QUERY]: {
+      limit: Joi.number(),
+      offset: Joi.number(),
+      category: Joi.string(),
+      location: Joi.string(),
+      word: Joi.string(),
+    },
+  }),
+  vendorController.search,
+);
+
+vendorRouter.get(
   '/:id',
   celebrate({
     [Segments.PARAMS]: {
@@ -63,7 +77,7 @@ vendorRouter.put(
       phone: Joi.string().required(),
       locationId: Joi.string().required(),
       description: Joi.string(),
-      category: Joi.string(),
+      categoryId: Joi.string(),
       hours: Joi.object({
         sunday: Joi.string(),
         monday: Joi.string(),

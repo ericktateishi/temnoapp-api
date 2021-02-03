@@ -2,6 +2,7 @@ import IVendorData, {
   CreateVendorDTO,
   UpdateVendorDTO,
   ListVendorResponse,
+  SearchVendorRequest,
 } from '@domain/vendor/data/IVendorData';
 import VendorEntity from '@domain/vendor/entities/VendorEntity';
 
@@ -12,7 +13,7 @@ class FakeVendorProvider implements IVendorData {
       userId: 'user-id',
       name: 'Test',
       phone: '00 0000 0000',
-      category: 'category-id',
+      categoryId: 'category-id',
       description: 'test',
       hours: {
         id: 'hours-id',
@@ -76,6 +77,19 @@ class FakeVendorProvider implements IVendorData {
   }
 
   public async findAll(limit = 10, offset = 0): Promise<ListVendorResponse> {
+    return {
+      limit,
+      offset,
+      total: this.vendors.length,
+      vendors: this.vendors,
+    };
+  }
+
+  public async search(
+    _search: SearchVendorRequest,
+    limit: number,
+    offset: number,
+  ): Promise<ListVendorResponse> {
     return {
       limit,
       offset,

@@ -2,6 +2,7 @@ import VendorEntity from '@domain/vendor/entities/VendorEntity';
 import VendorHoursModel from '@providers/database/typeorm/vendor/schemas/VendorHoursModel';
 import UserModel from '@providers/database/typeorm/user/schemas/UserModel';
 import LocationModel from '@providers/database/typeorm/location/schemas/LocationModel';
+import CategoryModel from '@providers/database/typeorm/category/schemas/CategoryModel';
 import {
   Entity,
   Column,
@@ -36,17 +37,24 @@ class VendorModel extends VendorEntity {
 
   @ManyToOne(() => LocationModel)
   @JoinColumn({ name: 'locationId' })
-  location: LocationModel;
+  location?: LocationModel;
 
   @Column()
   description?: string;
 
-  @Column()
-  category?: string;
+  @Column({ nullable: true })
+  categoryId?: string;
+
+  @ManyToOne(() => CategoryModel)
+  @JoinColumn({ name: 'categoryId' })
+  category?: CategoryModel;
+
+  @Column({ nullable: true })
+  hoursId?: string;
 
   @OneToOne(() => VendorHoursModel)
-  @JoinColumn()
-  hours: VendorHoursModel;
+  @JoinColumn({ name: 'hoursId' })
+  hours?: VendorHoursModel;
 
   @Column()
   facebook?: string;

@@ -1,7 +1,8 @@
-import { getRepository, Repository } from 'typeorm';
+import { Brackets, getRepository, Repository } from 'typeorm';
 import IVendorData, {
   CreateVendorDTO,
   ListVendorResponse,
+  SearchVendorRequest,
   UpdateVendorDTO,
 } from '@domain/vendor/data/IVendorData';
 import VendorModel from '@providers/database/typeorm/vendor/schemas/VendorModel';
@@ -15,6 +16,51 @@ class VendorRepository implements IVendorData {
   constructor() {
     this.vendorRepository = getRepository(VendorModel);
     this.hourRepository = getRepository(VendorHoursModel);
+  }
+
+  public async search(
+    search: SearchVendorRequest,
+    limit: number,
+    offset: number,
+  ): Promise<ListVendorResponse> {
+    const { word, location, category } = search;
+    const query = this.vendorRepository
+      .createQueryBuilder('vendor')
+      .leftJoinAndSelect('vendor.category', 'category')
+      .leftJoinAndSelect('vendor.location', 'location')
+      .leftJoinAndSelect('vendor.hours', 'hours')
+      .where('vendor.active = true');
+
+    if (word) {
+      query.andWhere('vendor.name like :word', { word: `%${word}%` });
+    }
+
+    if (location) {
+      query.andWhere('vendor.locationId = :location', { location });
+    }
+
+    if (category) {
+      query.andWhere(
+        new Brackets(qb => {
+          qb.where('category.id = :category', {
+            category,
+          }).orWhere('category.parentCategoryId = :category', { category });
+        }),
+      );
+    }
+    const querystr = await query
+      .offset(offset)
+      .limit(limit)
+      .getQueryAndParameters();
+    console.log(querystr);
+    const vendors = await query.offset(offset).limit(limit).getMany();
+    const total = await query.getCount();
+    return {
+      limit,
+      offset,
+      vendors,
+      total,
+    };
   }
 
   public async create(data: CreateVendorDTO): Promise<VendorModel> {

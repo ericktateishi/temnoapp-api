@@ -36,10 +36,21 @@ export type ListVendorResponse = {
   vendors: VendorEntity[];
 };
 
+export type SearchVendorRequest = {
+  word?: string;
+  category?: string;
+  location?: string;
+};
+
 export default interface IVendorData {
   create(data: CreateVendorDTO): Promise<VendorEntity>;
   findAll(limit: number, offset: number): Promise<ListVendorResponse>;
   findById(id: string): Promise<VendorEntity | undefined>;
   update(data: UpdateVendorDTO): Promise<VendorEntity | undefined>;
   status(id: string): Promise<VendorEntity | undefined>;
+  search(
+    search: SearchVendorRequest,
+    limit: number,
+    offset: number,
+  ): Promise<ListVendorResponse>;
 }

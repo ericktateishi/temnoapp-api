@@ -5,6 +5,7 @@ import ListVendorUseCase from '@domain/vendor/useCases/ListVendorUseCase';
 import ShowVendorUseCase from '@domain/vendor/useCases/ShowVendorUseCase';
 import UpdateVendorUseCase from '@domain/vendor/useCases/UpdateVendorUseCase';
 import StatusVendorUseCase from '@domain/vendor/useCases/StatusVendorUseCase';
+import SearchVendorUseCase from '@domain/vendor/useCases/SearchVendorUseCase';
 import AppError from '@infra/http/shared/middlewares/AppError';
 
 export default class VendorController {
@@ -21,6 +22,20 @@ export default class VendorController {
     const vendor = await listVendorUseCase.execute({
       limit: Number(limit || 10),
       offset: Number(offset || 0),
+    });
+    return response.json(vendor);
+  }
+
+  public async search(request: Request, response: Response): Promise<Response> {
+    const searchVendorUseCase = container.resolve(SearchVendorUseCase);
+    const { limit, offset, category, location, word } = request.query;
+
+    const vendor = await searchVendorUseCase.execute({
+      limit: Number(limit || 10),
+      offset: Number(offset || 0),
+      category: category as string,
+      location: location as string,
+      word: word as string,
     });
     return response.json(vendor);
   }

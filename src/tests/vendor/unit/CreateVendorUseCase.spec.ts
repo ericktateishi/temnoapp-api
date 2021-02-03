@@ -16,7 +16,7 @@ describe('Create Vendor Use Case - unit tests', () => {
       userId: 'user-id',
       name: 'Test',
       phone: '00 0000 0000',
-      category: 'category-id',
+      categoryId: 'category-id',
       description: 'test',
       hours: {
         monday: '00h00 - 00h00',
