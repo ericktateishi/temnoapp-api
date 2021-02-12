@@ -5,6 +5,7 @@ import ListLocationUseCase from '@domain/location/useCases/ListLocationUseCase';
 import ShowLocationUseCase from '@domain/location/useCases/ShowLocationUseCase';
 import UpdateLocationUseCase from '@domain/location/useCases/UpdateLocationUseCase';
 import DeleteLocationUseCase from '@domain/location/useCases/DeleteLocationUseCase';
+import SearchLocationUseCase from '@domain/location/useCases/SearchLocationUseCase';
 import AppError from '@infra/http/shared/middlewares/AppError';
 
 export default class LocationController {
@@ -19,6 +20,18 @@ export default class LocationController {
     const { limit, offset } = request.query;
 
     const location = await listLocationUseCase.execute({
+      limit: Number(limit || 10),
+      offset: Number(offset || 0),
+    });
+    return response.json(location);
+  }
+
+  public async search(request: Request, response: Response): Promise<Response> {
+    const searchLocationUseCase = container.resolve(SearchLocationUseCase);
+    const { word, limit, offset } = request.query;
+
+    const location = await searchLocationUseCase.execute({
+      word: word as string,
       limit: Number(limit || 10),
       offset: Number(offset || 0),
     });

@@ -1,4 +1,4 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Repository, Like } from 'typeorm';
 import ILocationData, {
   CreateLocationDTO,
   UpdateLocationDTO,
@@ -11,6 +11,40 @@ class LocationRepository implements ILocationData {
 
   constructor() {
     this.ormRepository = getRepository(LocationModel);
+  }
+
+  public async search(
+    word: string,
+    limit: number,
+    offset: number,
+  ): Promise<ListLocationResponse> {
+    const locations = await this.ormRepository.find({
+      where: [
+        {
+          name: Like(`%${word}%`),
+        },
+        {
+          neighbourhood: Like(`%${word}%`),
+        },
+        {
+          address: Like(`%${word}%`),
+        },
+      ],
+      order: {
+        created: 'DESC',
+      },
+      take: limit,
+      skip: offset,
+    });
+
+    const total = await this.ormRepository.count();
+
+    return {
+      total,
+      offset,
+      limit,
+      locations,
+    };
   }
 
   public async create(data: CreateLocationDTO): Promise<LocationModel> {

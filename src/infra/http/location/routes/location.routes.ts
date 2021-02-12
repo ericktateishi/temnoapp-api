@@ -35,6 +35,18 @@ locationRouter.get(
 );
 
 locationRouter.get(
+  '/search/',
+  celebrate({
+    [Segments.QUERY]: {
+      word: Joi.string().required(),
+      limit: Joi.number(),
+      offset: Joi.number(),
+    },
+  }),
+  locationController.search,
+);
+
+locationRouter.get(
   '/:id',
   celebrate({
     [Segments.PARAMS]: {

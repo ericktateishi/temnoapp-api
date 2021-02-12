@@ -40,4 +40,9 @@ export default interface ILocationData {
   findById(id: string): Promise<LocationEntity | undefined>;
   update(data: UpdateLocationDTO): Promise<LocationEntity | undefined>;
   delete(id: string): Promise<boolean>;
+  search(
+    word: string,
+    limit: number,
+    offset: number,
+  ): Promise<ListLocationResponse>;
 }
