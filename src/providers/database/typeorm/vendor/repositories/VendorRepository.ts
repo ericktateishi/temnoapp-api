@@ -48,11 +48,7 @@ class VendorRepository implements IVendorData {
         }),
       );
     }
-    const querystr = await query
-      .offset(offset)
-      .limit(limit)
-      .getQueryAndParameters();
-    console.log(querystr);
+
     const vendors = await query.offset(offset).limit(limit).getMany();
     const total = await query.getCount();
     return {
