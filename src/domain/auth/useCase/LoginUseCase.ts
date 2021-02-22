@@ -17,7 +17,9 @@ export default class VerifyTokenUseCase
 
   public async execute({ email, password }: LoginDTO): Promise<UserEntity> {
     const user = await this.userData.findByEmail(email);
-    if (!user || !user?.password) throw new AppError('User not found', 401);
+
+    if (!user || !user?.password || !user.active)
+      throw new AppError('User not found', 401);
 
     const result = await this.authData.comparePasswords(
       password,

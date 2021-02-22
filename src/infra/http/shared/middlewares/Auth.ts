@@ -9,7 +9,11 @@ export const AUTH_HEADER = process.env.APP_AUTH_HEADER as string;
 
 export interface IAuthRequested extends Request {
   user: UserEntity;
+  isAdmin: boolean;
 }
+
+export const isAdmin = (user: UserEntity) =>
+  user.email === process.env.ADMIN_EMAIL;
 
 export const authGenerate = async (request: Request, response: Response) => {
   const createTokenUseCase = container.resolve(CreateTokenUseCase);
@@ -38,6 +42,28 @@ export const authValidate = async (
     if (!user || !user.id) throw new AppError('Invalid auth token', 401);
 
     (request as IAuthRequested).user = user;
+    (request as IAuthRequested).isAdmin = isAdmin(user);
+    next();
+  } catch (error) {
+    throw new AppError('Invalid auth token', 401);
+  }
+};
+
+export const allowAdmin = async (
+  request: Request,
+  _response: Response,
+  next: NextFunction,
+) => {
+  const verifyTokenUseCase = container.resolve(VerifyTokenUseCase);
+
+  const token = request.get(AUTH_HEADER);
+  if (!token) throw new AppError('Invalid auth token', 401);
+
+  try {
+    const user = await verifyTokenUseCase.execute(token);
+    if (!user || !user.id || !isAdmin(user))
+      throw new AppError('Invalid auth token', 401);
+
     next();
   } catch (error) {
     throw new AppError('Invalid auth token', 401);

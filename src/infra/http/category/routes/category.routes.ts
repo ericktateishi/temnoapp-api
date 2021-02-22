@@ -1,5 +1,6 @@
 import { celebrate, Segments, Joi } from 'celebrate';
 import { Router } from 'express';
+import { allowAdmin } from '@infra/http/shared/middlewares/Auth';
 import CategoryController from '@infra/http/category/controllers/CategoryController';
 
 const categoryRouter = Router();
@@ -13,6 +14,7 @@ categoryRouter.post(
       parentCategoryId: Joi.string(),
     },
   }),
+  allowAdmin,
   categoryController.create,
 );
 
@@ -21,6 +23,7 @@ categoryRouter.get(
   celebrate({
     [Segments.QUERY]: {
       parent: Joi.string(),
+      all: Joi.boolean(),
     },
   }),
   categoryController.list,
@@ -45,6 +48,7 @@ categoryRouter.put(
       parentCategoryId: Joi.string(),
     },
   }),
+  allowAdmin,
   categoryController.update,
 );
 
@@ -55,6 +59,7 @@ categoryRouter.delete(
       id: Joi.string().required(),
     },
   }),
+  allowAdmin,
   categoryController.delete,
 );
 

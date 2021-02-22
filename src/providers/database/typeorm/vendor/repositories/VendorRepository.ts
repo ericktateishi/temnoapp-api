@@ -23,13 +23,16 @@ class VendorRepository implements IVendorData {
     limit: number,
     offset: number,
   ): Promise<ListVendorResponse> {
-    const { word, location, category } = search;
+    const { word, location, category, inactivated } = search;
     const query = this.vendorRepository
       .createQueryBuilder('vendor')
       .leftJoinAndSelect('vendor.category', 'category')
       .leftJoinAndSelect('vendor.location', 'location')
-      .leftJoinAndSelect('vendor.hours', 'hours')
-      .where('vendor.active = true');
+      .leftJoinAndSelect('vendor.hours', 'hours');
+
+    if (!inactivated) {
+      query.andWhere('vendor.active = true');
+    }
 
     if (word) {
       query.andWhere('vendor.name like :word', { word: `%${word}%` });
@@ -82,22 +85,21 @@ class VendorRepository implements IVendorData {
     const vendor = await this.vendorRepository.findOne({
       where: { id: data.id },
     });
+
     if (!vendor) return undefined;
 
     if (vendor.hoursId && data.hours) {
       await this.hourRepository.update(
         {
-          id: vendor.hours?.id,
+          id: vendor.hoursId,
         },
         {
           ...data.hours,
-          id: vendor.hours?.id,
+          id: vendor.hoursId,
         },
       );
       delete data.hours;
-    }
-
-    if (!vendor.hoursId && data.hours) {
+    } else if (!vendor.hoursId && data.hours) {
       const vendorHours = this.hourRepository.create({
         ...data.hours,
       });

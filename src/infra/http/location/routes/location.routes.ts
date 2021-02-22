@@ -1,5 +1,6 @@
 import { celebrate, Segments, Joi } from 'celebrate';
 import { Router } from 'express';
+import { allowAdmin } from '@infra/http/shared/middlewares/Auth';
 import LocationController from '@infra/http/location/controllers/LocationController';
 
 const locationRouter = Router();
@@ -72,6 +73,7 @@ locationRouter.put(
       lat: Joi.number(),
     },
   }),
+  allowAdmin,
   locationController.update,
 );
 
@@ -82,6 +84,7 @@ locationRouter.delete(
       id: Joi.string().required(),
     },
   }),
+  allowAdmin,
   locationController.delete,
 );
 

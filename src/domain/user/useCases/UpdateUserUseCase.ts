@@ -33,6 +33,11 @@ export default class UpdateUserUseCase
       delete data.oldPassword;
     }
 
+    if (data.adminPassword) {
+      data.password = await this.authData.encryptPassword(data.adminPassword);
+      delete data.adminPassword;
+    }
+
     return this.userData.update(data);
   }
 }

@@ -12,7 +12,7 @@ export type UpdateCategoryDTO = Pick<
 
 export default interface ICategoryData {
   create(data: CreateCategoryDTO): Promise<CategoryEntity>;
-  findAll(parent?: string): Promise<CategoryEntity[]>;
+  findAll(parent?: string, all?: boolean): Promise<CategoryEntity[]>;
   findById(id: string): Promise<CategoryEntity | undefined>;
   update(data: UpdateCategoryDTO): Promise<CategoryEntity | undefined>;
   delete(id: string): Promise<boolean>;

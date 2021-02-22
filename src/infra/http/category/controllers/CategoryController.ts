@@ -16,9 +16,12 @@ export default class CategoryController {
 
   public async list(request: Request, response: Response): Promise<Response> {
     const listCategoryUseCase = container.resolve(ListCategoryUseCase);
-    const { parent } = request.query;
+    const { parent, all } = request.query;
 
-    const category = await listCategoryUseCase.execute(parent as string);
+    const category = await listCategoryUseCase.execute({
+      parent: parent as string,
+      all: !!all,
+    });
     return response.json(category);
   }
 

@@ -1,7 +1,8 @@
-import { getRepository, Repository } from 'typeorm';
+import { getRepository, Like, Repository } from 'typeorm';
 import IUserData, {
   CreateUserDTO,
   IUpdateUserDTO,
+  ListUserResponse,
 } from '@domain/user/data/IUserData';
 import UserModel from '@providers/database/typeorm/user/schemas/UserModel';
 
@@ -10,6 +11,36 @@ class UserRepository implements IUserData {
 
   constructor() {
     this.ormRepository = getRepository(UserModel);
+  }
+
+  public async search(
+    limit: number,
+    offset: number,
+    email?: string,
+  ): Promise<ListUserResponse> {
+    const where = email
+      ? {
+          email: Like(`%${email}%`),
+        }
+      : {};
+
+    const users = await this.ormRepository.find({
+      where,
+      order: {
+        created: 'DESC',
+      },
+      take: limit,
+      skip: offset,
+    });
+
+    const total = await this.ormRepository.count();
+
+    return {
+      total,
+      offset,
+      limit,
+      users,
+    };
   }
 
   public async create(data: CreateUserDTO): Promise<UserModel> {

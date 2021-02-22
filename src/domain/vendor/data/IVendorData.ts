@@ -40,6 +40,7 @@ export type SearchVendorRequest = {
   word?: string;
   category?: string;
   location?: string;
+  inactivated?: boolean;
 };
 
 export default interface IVendorData {

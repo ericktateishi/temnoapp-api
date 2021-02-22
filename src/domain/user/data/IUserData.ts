@@ -11,7 +11,15 @@ export interface IUpdateUserDTO
     'id' | 'name' | 'email' | 'phone' | 'locationId' | 'password'
   > {
   oldPassword?: string;
+  adminPassword?: string;
 }
+
+export type ListUserResponse = {
+  limit: number;
+  offset: number;
+  total: number;
+  users: UserEntity[];
+};
 
 export default interface IUserData {
   create(data: CreateUserDTO): Promise<UserEntity>;
@@ -19,4 +27,9 @@ export default interface IUserData {
   status(id: string): Promise<UserEntity | undefined>;
   findByEmail(email: string): Promise<UserEntity | undefined>;
   findById(id: string): Promise<UserEntity | undefined>;
+  search(
+    limit: number,
+    offset: number,
+    email?: string,
+  ): Promise<ListUserResponse>;
 }

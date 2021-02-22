@@ -1,5 +1,6 @@
 import { celebrate, Segments, Joi } from 'celebrate';
 import { Router } from 'express';
+import { allowAdmin } from '@infra/http/shared/middlewares/Auth';
 import VendorController from '@infra/http/vendor/controllers/VendorController';
 
 const vendorRouter = Router();
@@ -49,9 +50,10 @@ vendorRouter.get(
     [Segments.QUERY]: {
       limit: Joi.number(),
       offset: Joi.number(),
-      category: Joi.string(),
-      location: Joi.string(),
-      word: Joi.string(),
+      category: Joi.string().allow(''),
+      location: Joi.string().allow(''),
+      word: Joi.string().allow(''),
+      inactivated: Joi.boolean().allow(''),
     },
   }),
   vendorController.search,
@@ -92,6 +94,7 @@ vendorRouter.put(
       twitter: Joi.string(),
     },
   }),
+  allowAdmin,
   vendorController.update,
 );
 
@@ -102,6 +105,7 @@ vendorRouter.put(
       id: Joi.string().required(),
     },
   }),
+  allowAdmin,
   vendorController.status,
 );
 

@@ -1,6 +1,7 @@
 import IUserData, {
   CreateUserDTO,
   IUpdateUserDTO,
+  ListUserResponse,
 } from '@domain/user/data/IUserData';
 import UserEntity from '@domain/user/entities/UserEntity';
 
@@ -78,6 +79,19 @@ class FakeUserProvider implements IUserData {
 
   public async findById(id: string): Promise<UserEntity | undefined> {
     return this.users.find(u => u.id === id);
+  }
+
+  public async search(
+    limit: number,
+    offset: number,
+    _email?: string,
+  ): Promise<ListUserResponse> {
+    return {
+      limit,
+      offset,
+      total: this.users.length,
+      users: this.users,
+    };
   }
 }
 

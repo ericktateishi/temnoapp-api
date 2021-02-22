@@ -28,7 +28,14 @@ export default class VendorController {
 
   public async search(request: Request, response: Response): Promise<Response> {
     const searchVendorUseCase = container.resolve(SearchVendorUseCase);
-    const { limit, offset, category, location, word } = request.query;
+    const {
+      limit,
+      offset,
+      category,
+      location,
+      word,
+      inactivated,
+    } = request.query;
 
     const vendor = await searchVendorUseCase.execute({
       limit: Number(limit || 10),
@@ -36,6 +43,7 @@ export default class VendorController {
       category: category as string,
       location: location as string,
       word: word as string,
+      inactivated: !!inactivated,
     });
     return response.json(vendor);
   }

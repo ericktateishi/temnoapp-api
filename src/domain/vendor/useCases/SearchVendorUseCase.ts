@@ -21,6 +21,7 @@ export default class SearchVendorUseCase
     category,
     location,
     word,
+    inactivated,
     limit,
     offset,
   }: ISearchListVendorRequest): Promise<ListVendorResponse> {
@@ -29,6 +30,7 @@ export default class SearchVendorUseCase
         category,
         location,
         word,
+        inactivated,
       },
       limit,
       offset,

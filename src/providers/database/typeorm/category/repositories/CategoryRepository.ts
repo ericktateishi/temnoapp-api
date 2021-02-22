@@ -40,13 +40,13 @@ class CategoryRepository implements ICategoryData {
     });
   }
 
-  public async findAll(parent: string): Promise<CategoryModel[]> {
+  public async findAll(parent: string, all: boolean): Promise<CategoryModel[]> {
     const where = parent
       ? { parentCategoryId: parent }
       : { parentCategoryId: IsNull() };
 
     return this.ormRepository.find({
-      where,
+      where: all ? {} : where,
       relations: ['parentCategory'],
     });
   }
