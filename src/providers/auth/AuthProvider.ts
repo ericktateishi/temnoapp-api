@@ -1,6 +1,6 @@
 import IAuthData from '@domain/auth/data/IAuthData';
 import UserEntity from '@domain/user/entities/UserEntity';
-import bcrypt from 'bcrypt';
+import bcryptjs from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
 
 type JWTReturn = {
@@ -11,14 +11,14 @@ const saltRounds = 10;
 
 class AuthProvider implements IAuthData {
   public async encryptPassword(password: string): Promise<string> {
-    return bcrypt.hash(password, saltRounds);
+    return bcryptjs.hash(password, saltRounds);
   }
 
   public async comparePasswords(
     attempt: string,
     correct: string,
   ): Promise<boolean> {
-    return bcrypt.compare(attempt, correct);
+    return bcryptjs.compare(attempt, correct);
   }
 
   public createToken(user: UserEntity): string {
