@@ -5,6 +5,7 @@ import ILocationData, {
   ListLocationResponse,
 } from '@domain/location/data/ILocationData';
 import LocationModel from '@providers/database/typeorm/location/schemas/LocationModel';
+import AppError from '@infra/http/shared/middlewares/AppError';
 
 class LocationRepository implements ILocationData {
   private ormRepository: Repository<LocationModel>;
@@ -48,6 +49,14 @@ class LocationRepository implements ILocationData {
   }
 
   public async create(data: CreateLocationDTO): Promise<LocationModel> {
+    const duplicated = await this.ormRepository.findOne({
+      postalCode: data.postalCode,
+      address: data.address,
+    });
+
+    if (duplicated && duplicated.id)
+      throw new AppError('Location already exists!', 409);
+
     const location = this.ormRepository.create({
       ...data,
       id: undefined,
