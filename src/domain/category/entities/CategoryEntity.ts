@@ -3,6 +3,8 @@ export default class CategoryEntity {
 
   name: string;
 
+  image?: string;
+
   parentCategoryId?: string;
 
   parentCategory?: CategoryEntity;

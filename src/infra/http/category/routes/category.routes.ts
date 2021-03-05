@@ -12,6 +12,7 @@ categoryRouter.post(
     [Segments.BODY]: {
       name: Joi.string().required(),
       parentCategoryId: Joi.string(),
+      image: Joi.string(),
     },
   }),
   allowAdmin,
@@ -46,6 +47,7 @@ categoryRouter.put(
       id: Joi.string().required(),
       name: Joi.string().required(),
       parentCategoryId: Joi.string(),
+      image: Joi.string(),
     },
   }),
   allowAdmin,

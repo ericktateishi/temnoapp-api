@@ -2,12 +2,12 @@ import CategoryEntity from '@domain/category/entities/CategoryEntity';
 
 export type CreateCategoryDTO = Pick<
   CategoryEntity,
-  'name' | 'parentCategoryId'
+  'name' | 'parentCategoryId' | 'image'
 >;
 
 export type UpdateCategoryDTO = Pick<
   CategoryEntity,
-  'id' | 'name' | 'parentCategoryId'
+  'id' | 'name' | 'parentCategoryId' | 'image'
 >;
 
 export default interface ICategoryData {

@@ -20,6 +20,9 @@ class CategoryModel extends CategoryEntity {
   name: string;
 
   @Column({ nullable: true })
+  image?: string;
+
+  @Column({ nullable: true })
   parentCategoryId?: string;
 
   @ManyToOne(() => CategoryModel, category => category.id)
