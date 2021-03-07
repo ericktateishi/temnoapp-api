@@ -176,10 +176,12 @@ class VendorRepository implements IVendorData {
   }
 
   public async findById(id: string): Promise<VendorModel | undefined> {
-    return this.vendorRepository.findOne({
+    const response = await this.vendorRepository.findOne({
       where: { id },
-      relations: ['hours', 'location'],
+      relations: ['hours', 'location', 'category', 'user'],
     });
+    delete response?.user.password;
+    return response;
   }
 }
 
