@@ -35,7 +35,13 @@ class VendorRepository implements IVendorData {
     }
 
     if (word) {
-      query.andWhere('vendor.name like :word', { word: `%${word}%` });
+      query.andWhere(
+        new Brackets(qb => {
+          qb.where('vendor.name like :word', {
+            word: `%${word}%`,
+          }).orWhere('category.name like :word', { word: `%${word}%` });
+        }),
+      );
     }
 
     if (location) {
