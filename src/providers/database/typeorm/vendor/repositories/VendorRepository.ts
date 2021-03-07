@@ -178,7 +178,13 @@ class VendorRepository implements IVendorData {
   public async findById(id: string): Promise<VendorModel | undefined> {
     const response = await this.vendorRepository.findOne({
       where: { id },
-      relations: ['hours', 'location', 'category', 'user'],
+      relations: [
+        'hours',
+        'location',
+        'category',
+        'user',
+        'category.parentCategory',
+      ],
     });
     delete response?.user.password;
     return response;
