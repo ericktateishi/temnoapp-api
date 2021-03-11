@@ -1,6 +1,6 @@
 import { celebrate, Segments, Joi } from 'celebrate';
 import { Router } from 'express';
-import { allowAdmin } from '@infra/http/shared/middlewares/Auth';
+import { allowAdmin, authValidate } from '@infra/http/shared/middlewares/Auth';
 import VendorController from '@infra/http/vendor/controllers/VendorController';
 
 const vendorRouter = Router();
@@ -74,7 +74,7 @@ vendorRouter.put(
   celebrate({
     [Segments.BODY]: {
       id: Joi.string().required(),
-      userId: Joi.string().required(),
+      userId: Joi.string(),
       name: Joi.string().required(),
       phone: Joi.string().required(),
       locationId: Joi.string().required(),
@@ -94,7 +94,7 @@ vendorRouter.put(
       twitter: Joi.string(),
     },
   }),
-  allowAdmin,
+  authValidate,
   vendorController.update,
 );
 

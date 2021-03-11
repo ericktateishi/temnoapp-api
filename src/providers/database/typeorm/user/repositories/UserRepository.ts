@@ -20,7 +20,7 @@ class UserRepository implements IUserData {
   ): Promise<ListUserResponse> {
     const where = email
       ? {
-          email: Like(`%${email}%`),
+          email: Like(`%${email.toLowerCase()}%`),
         }
       : {};
 
@@ -46,6 +46,7 @@ class UserRepository implements IUserData {
   public async create(data: CreateUserDTO): Promise<UserModel> {
     const user = this.ormRepository.create({
       ...data,
+      email: data.email.toLowerCase(),
       active: true,
       id: undefined,
     });
@@ -68,6 +69,7 @@ class UserRepository implements IUserData {
       },
       {
         ...data,
+        email: data.email.toLowerCase(),
       },
     );
     const user = await this.ormRepository.findOne({
@@ -100,7 +102,7 @@ class UserRepository implements IUserData {
   public async findByEmail(email: string): Promise<UserModel | undefined> {
     return this.ormRepository.findOne({
       where: {
-        email,
+        email: email.toLowerCase(),
       },
       relations: ['vendors', 'vendors.hours', 'location'],
     });

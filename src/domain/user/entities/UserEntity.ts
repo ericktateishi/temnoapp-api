@@ -1,4 +1,5 @@
 import LocationEntity from '@domain/location/entities/LocationEntity';
+import VendorEntity from '@domain/vendor/entities/VendorEntity';
 
 export default class UserEntity {
   id: string;
@@ -8,6 +9,8 @@ export default class UserEntity {
   email: string;
 
   phone?: string;
+
+  vendors?: VendorEntity[];
 
   locationId?: string;
 

@@ -7,6 +7,8 @@ import UpdateVendorUseCase from '@domain/vendor/useCases/UpdateVendorUseCase';
 import StatusVendorUseCase from '@domain/vendor/useCases/StatusVendorUseCase';
 import SearchVendorUseCase from '@domain/vendor/useCases/SearchVendorUseCase';
 import AppError from '@infra/http/shared/middlewares/AppError';
+import { IAuthRequested } from '@infra/http/shared/middlewares/Auth';
+import { UpdateVendorDTO } from '@domain/vendor/data/IVendorData';
 
 export default class VendorController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -58,10 +60,22 @@ export default class VendorController {
 
   public async update(request: Request, response: Response): Promise<Response> {
     const updateVendorUseCase = container.resolve(UpdateVendorUseCase);
+    const showVendorUseCase = container.resolve(ShowVendorUseCase);
+    const parsedRequest = request as IAuthRequested;
 
-    const vendor = await updateVendorUseCase.execute({
+    const currentVendor = await showVendorUseCase.execute(request.body.id);
+    const newVendor: UpdateVendorDTO = {
       ...request.body,
-    });
+      userId: parsedRequest.isAdmin
+        ? request.body.userId
+        : parsedRequest.user.id,
+    };
+
+    if (currentVendor?.userId !== newVendor.userId && !parsedRequest.isAdmin) {
+      throw new AppError('Not allowed', 401);
+    }
+
+    const vendor = await updateVendorUseCase.execute(newVendor);
 
     if (!vendor) throw new AppError('Could find vendor for update', 400);
 

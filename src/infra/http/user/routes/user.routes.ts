@@ -31,7 +31,7 @@ userRouter.put(
     [Segments.BODY]: {
       id: Joi.string(),
       name: Joi.string(),
-      email: Joi.string().email(),
+      email: Joi.string().email().required(),
       locationId: Joi.string(),
       phone: Joi.string(),
       password: Joi.string(),
@@ -78,6 +78,8 @@ userRouter.get(
   allowAdmin,
   userController.search,
 );
+
+userRouter.get('/profile/', authValidate, userController.profile);
 
 userRouter.get(
   '/:id/',

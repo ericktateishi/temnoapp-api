@@ -68,6 +68,20 @@ export default class UserController {
     return response.json(user);
   }
 
+  public async profile(
+    request: Request,
+    response: Response,
+  ): Promise<Response> {
+    const showByIdUserUseCase = container.resolve(ShowByIdUserUseCase);
+    const parsedRequest = request as IAuthRequested;
+
+    if (!parsedRequest.user?.id) throw new AppError('Not allowed', 401);
+
+    const user = await showByIdUserUseCase.execute(parsedRequest.user.id);
+    delete user?.password;
+    return response.json(user);
+  }
+
   public async search(request: Request, response: Response): Promise<Response> {
     const searchUserUseCase = container.resolve(SearchUserUseCase);
     const { email, limit, offset } = request.query;

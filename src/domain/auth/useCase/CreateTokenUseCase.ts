@@ -13,6 +13,8 @@ export default class CreateTokenUseCase
 
   public async execute(user: UserEntity): Promise<string> {
     delete user.password;
+    delete user.vendors;
+    delete user.location;
     return this.authData.createToken(user);
   }
 }
